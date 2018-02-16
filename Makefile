@@ -1,6 +1,6 @@
 DOCKER_REPO=moogar0880
 VERSION=$(shell git describe --tags 2> /dev/null || echo 'latest')
-IMAGES=glide gometalinter
+IMAGES=cookiecutter glide gometalinter
 
 # the all directive builds all of the docker images defined in this repo
 .PHONY: all
@@ -11,6 +11,13 @@ all: images
 .PHONY: images
 images:
 	$(foreach var,$(IMAGES),$(MAKE) -C $(var) build VERSION=$(VERSION) DOCKER_REPO=$(DOCKER_REPO)|| exit 1;)
+
+.PHONY: cookiecutter
+cookiecutter:
+	docker build -f cookiecutter/Dockerfile \
+		--tag $(DOCKER_REPO)/cookiecutter:$(VERSION) \
+		--tag $(DOCKER_REPO)/cookiecutter:latest \
+		cookiecutter
 
 .PHONY: delve
 delve:
