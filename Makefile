@@ -26,6 +26,13 @@ delve:
 		--tag $(DOCKER_REPO)/delve:latest \
 		delve
 
+.PHONY: emojipacks
+emojipacks:
+	docker build -f emojipacks/Dockerfile \
+		--tag $(DOCKER_REPO)/emojipacks:$(VERSION) \
+		--tag $(DOCKER_REPO)/emojipacks:latest \
+		emojipacks
+
 .PHONY: glide
 glide:
 	docker build -f glide/Dockerfile \
